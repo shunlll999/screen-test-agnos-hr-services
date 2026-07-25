@@ -23,6 +23,38 @@ const addPatient = (req, res) => {
   }
 };
 
+const updatePatient = (req, res) => {
+  try {
+    const updateData = req.body;
+    if (!updateData.sessionId) {
+      return res.status(400).json({ message: "Missing sessionId in request body" });
+    }
+
+    const patientIndex = guestPatientUsers.findIndex(
+      (patient) => patient.sessionId === updateData.sessionId
+    );
+
+    if (patientIndex === -1) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+    guestPatientUsers[patientIndex] = {
+      ...guestPatientUsers[patientIndex],
+      ...updateData,
+    };
+
+    req.io.emit('message:submitted', guestPatientUsers);
+
+    res.status(200).json({
+      success: true,
+      data: guestPatientUsers[patientIndex]
+    });
+
+  } catch (error) {
+    console.error("Error updating patient:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const generateSessionId = (req, res) => {
   try {
     const sessionId = crypto.randomUUID();
@@ -41,13 +73,14 @@ const getExistingPatientById = (req, res) => {
     }
     const existingPatient = guestPatientUsers.find(patient => patient.sessionId === id);
     res.status(200).json({
-        data: existingPatient ?? {}
+        data: existingPatient
       });
   } catch (error) {
     console.error("Error getting patient: by ID", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 
 const getExistingPatient = (req, res) => {
   try {
@@ -63,6 +96,7 @@ const getExistingPatient = (req, res) => {
 
 module.exports = {
   addPatient,
+  updatePatient,
   generateSessionId,
   getExistingPatientById,
   getExistingPatient,
