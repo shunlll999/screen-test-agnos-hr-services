@@ -4,6 +4,7 @@
   "description": "Screen test BE for Agnos ",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.js",
     "serve": "nodemon src/server.js"
   },
   "repository": {
