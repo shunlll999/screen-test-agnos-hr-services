@@ -33,7 +33,38 @@ const generateSessionId = (req, res) => {
   }
 }
 
+const getExistingPatientById = (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "No data provided" });
+    }
+    const existingPatient = guestPatientUsers.find(patient => patient.sessionId === id);
+    res.status(200).json({
+        data: existingPatient ?? {}
+      });
+  } catch (error) {
+    console.error("Error getting patient: by ID", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const getExistingPatient = (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      data: guestPatientUsers
+    });
+  } catch (error) {
+    console.error("Error getting patient:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
   addPatient,
-  generateSessionId
+  generateSessionId,
+  getExistingPatientById,
+  getExistingPatient,
+  guestPatientUsers
 };

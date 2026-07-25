@@ -15,6 +15,7 @@
     "real-time",
     "synchronization"
   ],
+  "type": "commonjs",
   "author": "wachara nilsonti",
   "license": "MIT",
   "dependencies": {
