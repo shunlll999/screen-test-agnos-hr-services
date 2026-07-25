@@ -1,0 +1,25 @@
+{
+  "name": "agnos-test-be",
+  "version": "1.0.0",
+  "description": "Screen test BE for Agnos ",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shunlll999/screen-test-agnos-hr-services.git"
+  },
+  "keywords": [
+    "socket.io",
+    "real-time",
+    "synchronization"
+  ],
+  "author": "wachara nilsonti",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}
