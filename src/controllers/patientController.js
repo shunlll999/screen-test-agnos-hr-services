@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 // Simulate Database (In the real world, will be used DB eg MongoDB, PostgreSQL)
 const guestPatientUsers = [];
 
@@ -21,6 +23,17 @@ const addPatient = (req, res) => {
   }
 };
 
+const generateSessionId = (req, res) => {
+  try {
+    const sessionId = crypto.randomUUID();
+    res.status(200).json({ sessionId });
+  } catch (error) {
+    console.error("Error generating session ID:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
-  addPatient
+  addPatient,
+  generateSessionId
 };
